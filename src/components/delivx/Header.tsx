@@ -71,10 +71,10 @@ export default function Header() {
                 <Bike className="w-5 h-5 text-white" />
               </div>
             </motion.div>
-            <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent hidden sm:block">
+            <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent">
               FoodStore
             </span>
-            <span className="text-[9px] font-bold bg-gray-900 text-white px-1.5 py-0.5 rounded-md hidden sm:inline-block tracking-wide">
+            <span className="text-[9px] font-bold bg-gray-900 text-white px-1.5 py-0.5 rounded-md tracking-wide">
               by TrishulHub
             </span>
           </motion.div>

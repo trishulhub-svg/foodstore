@@ -362,9 +362,9 @@ function AppContent() {
       <BottomNav />
 
       {/* TrishulHub Footer */}
-      <footer className="hidden md:block bg-gray-900 text-center py-3 mt-auto">
+      <footer className="bg-gray-900 text-center py-3 pb-20 md:pb-3 mt-auto">
         <p className="text-gray-400 text-xs">
-          <span className="text-white font-semibold">FoodStore</span> — Delivery App Demo &middot; Built with ❤️ by{' '}
+          <span className="text-white font-semibold">FoodStore</span> &middot; Built with ❤️ by{' '}
           <a
             href="https://github.com/trishulhub-svg"
             target="_blank"
@@ -373,7 +373,6 @@ function AppContent() {
           >
             TrishulHub
           </a>
-          {' '}&middot; Powered by Next.js & Prisma
         </p>
       </footer>
     </div>

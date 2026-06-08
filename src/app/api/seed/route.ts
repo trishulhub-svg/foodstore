@@ -12,12 +12,28 @@ export async function POST() {
 
 async function seedDatabase() {
   try {
+    // Resolve DB URL — works with DATABASE_URL, POSTGRES_URL, or POSTGRES_PRISMA_URL
+    const dbUrl =
+      process.env.DATABASE_URL ||
+      process.env.POSTGRES_URL ||
+      process.env.POSTGRES_PRISMA_URL
+
+    if (!dbUrl) {
+      return NextResponse.json(
+        { error: 'No database URL configured', details: 'Set DATABASE_URL or POSTGRES_URL in Vercel environment variables' },
+        { status: 500 }
+      )
+    }
+
+    // Ensure DATABASE_URL is set for Prisma CLI (schema.prisma references it)
+    process.env.DATABASE_URL = dbUrl
+
     // Push schema to database (creates tables if they don't exist)
-    // This runs at runtime, not build time — so DB doesn't need to exist during build
     try {
       execSync('npx prisma db push --accept-data-loss --skip-generate', {
         stdio: 'pipe',
         timeout: 30000,
+        env: { ...process.env, DATABASE_URL: dbUrl },
       })
     } catch (pushError) {
       console.error('Schema push failed (tables may already exist):', String(pushError))
