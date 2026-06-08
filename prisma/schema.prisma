@@ -1,0 +1,312 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum Role {
+  ADMIN
+  EMPLOYEE
+  DELIVERY_PARTNER
+  CUSTOMER
+}
+
+enum AddressLabel {
+  HOME
+  OFFICE
+  OTHER
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  COD
+  ONLINE
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum DeliveryTrackingStatus {
+  PICKED_UP
+  ON_THE_WAY
+  NEAR_LOCATION
+  DELIVERED
+}
+
+enum NotificationType {
+  ORDER
+  PROMO
+  SYSTEM
+}
+
+// ============================================
+// MODELS
+// ============================================
+
+model User {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  phone         String
+  password      String
+  role          Role     @default(CUSTOMER)
+  avatar        String?
+  isActive      Boolean  @default(true)
+  emailVerified Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  addresses         Address[]
+  orders            Order[]
+  cartItems         Cart[]
+  wishlistItems     Wishlist[]
+  notifications     Notification[]
+  reviews           Review[]
+  createdProducts   Product[]       @relation("ProductCreator")
+  deliveredOrders   Order[]         @relation("DeliveryPartner")
+
+  @@index([email])
+  @@index([role])
+  @@index([phone])
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  icon      String
+  color     String
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([name])
+  @@index([sortOrder])
+}
+
+model Product {
+  id           String   @id @default(cuid())
+  name         String
+  description  String
+  price        Float
+  discountPrice Float?
+  category     String
+  images       String
+  stock        Int
+  unit         String
+  isActive     Boolean  @default(true)
+  isFeatured   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  userId       String
+
+  // Relations
+  user         User          @relation("ProductCreator", fields: [userId], references: [id])
+  orderItems   OrderItem[]
+  cartItems    Cart[]
+  wishlistItems Wishlist[]
+  reviews      Review[]
+
+  @@index([category])
+  @@index([isActive])
+  @@index([isFeatured])
+  @@index([userId])
+}
+
+model Address {
+  id           String       @id @default(cuid())
+  userId       String
+  label        AddressLabel @default(HOME)
+  fullName     String
+  phone        String
+  addressLine1 String
+  addressLine2 String?
+  city         String
+  state        String
+  pincode      String
+  landmark     String?
+  isDefault    Boolean      @default(false)
+  latitude     Float?
+  longitude    Float?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  // Relations
+  user   User    @relation(fields: [userId], references: [id])
+  orders Order[]
+
+  @@index([userId])
+  @@index([city])
+}
+
+model Order {
+  id               String        @id @default(cuid())
+  orderNumber      String        @unique
+  userId           String
+  addressId        String
+  status           OrderStatus   @default(PENDING)
+  totalAmount      Float
+  deliveryFee      Float         @default(0)
+  discount         Float         @default(0)
+  finalAmount      Float
+  paymentMethod    PaymentMethod @default(COD)
+  paymentStatus    PaymentStatus @default(PENDING)
+  paymentId        String?
+  deliveryPartnerId String?
+  deliveredAt      DateTime?
+  cancelledAt      DateTime?
+  cancelReason     String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  // Relations
+  user            User              @relation(fields: [userId], references: [id])
+  address         Address           @relation(fields: [addressId], references: [id])
+  deliveryPartner User?             @relation("DeliveryPartner", fields: [deliveryPartnerId], references: [id])
+  orderItems      OrderItem[]
+  deliveryTracking DeliveryTracking[]
+  reviews         Review[]
+
+  @@index([orderNumber])
+  @@index([userId])
+  @@index([status])
+  @@index([deliveryPartnerId])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id          String  @id @default(cuid())
+  orderId     String
+  productId   String
+  productName String
+  quantity    Int
+  price       Float
+  totalPrice  Float
+
+  // Relations
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model DeliveryTracking {
+  id        String                @id @default(cuid())
+  orderId   String
+  status    DeliveryTrackingStatus
+  latitude  Float
+  longitude Float
+  note      String?
+  timestamp DateTime              @default(now())
+
+  // Relations
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@index([orderId])
+  @@index([timestamp])
+}
+
+model Cart {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@unique([userId, productId])
+  @@index([userId])
+  @@index([productId])
+}
+
+model Wishlist {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
+
+  // Relations
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@unique([userId, productId])
+  @@index([userId])
+  @@index([productId])
+}
+
+model Banner {
+  id        String   @id @default(cuid())
+  title     String
+  image     String
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([isActive])
+  @@index([sortOrder])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  type      NotificationType
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([isRead])
+  @@index([type])
+  @@index([createdAt])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  orderId   String
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+
+  // Relations
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+  order   Order   @relation(fields: [orderId], references: [id])
+
+  @@index([userId])
+  @@index([productId])
+  @@index([orderId])
+  @@index([rating])
+}
