@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import { execSync } from 'child_process'
 
 export async function GET() {
   return seedDatabase()
@@ -11,6 +12,18 @@ export async function POST() {
 
 async function seedDatabase() {
   try {
+    // Push schema to database (creates tables if they don't exist)
+    // This runs at runtime, not build time — so DB doesn't need to exist during build
+    try {
+      execSync('npx prisma db push --accept-data-loss --skip-generate', {
+        stdio: 'pipe',
+        timeout: 30000,
+      })
+    } catch (pushError) {
+      console.error('Schema push failed (tables may already exist):', String(pushError))
+      // Continue anyway — tables might already exist
+    }
+
     // Create demo users
     const users = await Promise.all([
       db.user.upsert({
