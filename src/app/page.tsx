@@ -295,7 +295,7 @@ function AppContent() {
   // Auto-seed data on first load
   useEffect(() => {
     if (!seeded) {
-      fetch('/api/seed', { method: 'POST' })
+      fetch('/api/seed')
         .then((r) => r.json())
         .then(() => setSeeded(true))
         .catch(() => setSeeded(true))

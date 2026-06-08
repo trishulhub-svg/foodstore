@@ -1,7 +1,15 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 
+export async function GET() {
+  return seedDatabase()
+}
+
 export async function POST() {
+  return seedDatabase()
+}
+
+async function seedDatabase() {
   try {
     // Create demo users
     const users = await Promise.all([
