@@ -42,8 +42,8 @@ export default function HeroSection() {
   const goPrev = () => setCurrentBanner((prev) => (prev - 1 + banners.length) % banners.length)
 
   return (
-    <section className="relative overflow-hidden rounded-2xl mx-4 mt-4">
-      <div className="relative h-[200px] sm:h-[260px] md:h-[320px]">
+    <section className="relative overflow-hidden rounded-2xl mx-3 sm:mx-4 mt-3 sm:mt-4">
+      <div className="relative h-[180px] sm:h-[260px] md:h-[320px]">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentBanner}
@@ -53,13 +53,13 @@ export default function HeroSection() {
             transition={{ duration: 0.5, ease: 'easeInOut' }}
             className={`absolute inset-0 bg-gradient-to-r ${banners[currentBanner].gradient} flex items-center`}
           >
-            <div className="max-w-7xl mx-auto px-6 sm:px-10 w-full flex items-center justify-between">
+            <div className="max-w-7xl mx-auto px-4 sm:px-10 w-full flex items-center justify-between">
               <div className="max-w-md">
                 <motion.h2
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="text-2xl sm:text-3xl md:text-4xl font-bold text-white whitespace-pre-line leading-tight"
+                  className="text-xl sm:text-3xl md:text-4xl font-bold text-white whitespace-pre-line leading-tight"
                 >
                   {banners[currentBanner].title}
                 </motion.h2>
@@ -67,7 +67,7 @@ export default function HeroSection() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="text-white/80 mt-2 text-sm sm:text-base"
+                  className="text-white/80 mt-1.5 sm:mt-2 text-xs sm:text-base"
                 >
                   {banners[currentBanner].subtitle}
                 </motion.p>
@@ -75,11 +75,11 @@ export default function HeroSection() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="mt-4"
+                  className="mt-3 sm:mt-4"
                 >
-                  <Button className="bg-white text-gray-900 hover:bg-gray-100 font-semibold group">
+                  <Button className="bg-white text-gray-900 hover:bg-gray-100 font-semibold group h-9 sm:h-10 text-xs sm:text-sm px-4 sm:px-6">
                     {banners[currentBanner].cta}
-                    <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </motion.div>
               </div>
@@ -92,18 +92,18 @@ export default function HeroSection() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Nav arrows */}
+        {/* Nav arrows - larger touch targets for mobile */}
         <button
           onClick={goPrev}
-          className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-colors"
+          className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-8 sm:h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 active:bg-white/50 transition-colors"
         >
-          <ChevronLeft className="w-4 h-4 text-white" />
+          <ChevronLeft className="w-5 h-5 sm:w-4 sm:h-4 text-white" />
         </button>
         <button
           onClick={goNext}
-          className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-colors"
+          className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-8 sm:h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 active:bg-white/50 transition-colors"
         >
-          <ChevronRight className="w-4 h-4 text-white" />
+          <ChevronRight className="w-5 h-5 sm:w-4 sm:h-4 text-white" />
         </button>
 
         {/* Dots */}
@@ -120,8 +120,8 @@ export default function HeroSection() {
         </div>
 
         {/* TrishulHub Branding */}
-        <div className="absolute bottom-3 right-4">
-          <span className="text-[10px] font-semibold text-white/60 tracking-wider">
+        <div className="absolute bottom-3 right-3 sm:right-4">
+          <span className="text-[9px] sm:text-[10px] font-semibold text-white/60 tracking-wider">
             Built by <span className="text-white/90">TrishulHub</span>
           </span>
         </div>

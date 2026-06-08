@@ -249,7 +249,7 @@ export default function Header() {
                       setView(item.view)
                       setMobileMenuOpen(false)
                     }}
-                    className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                    className={`flex items-center gap-3 w-full px-3 py-3 rounded-xl text-sm font-medium transition-colors ${
                       currentView === item.view
                         ? 'bg-orange-50 text-orange-600'
                         : 'text-gray-600 hover:bg-gray-50'

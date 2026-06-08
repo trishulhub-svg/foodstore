@@ -51,9 +51,9 @@ export default function CategoryBar({ categories }: CategoryBarProps) {
       {canScrollLeft && (
         <button
           onClick={() => scroll('left')}
-          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-7 h-7 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50"
+          className="absolute left-1 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 active:bg-gray-100"
         >
-          <ChevronLeft className="w-4 h-4" />
+          <ChevronLeft className="w-5 h-5" />
         </button>
       )}
 
@@ -74,7 +74,7 @@ export default function CategoryBar({ categories }: CategoryBarProps) {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setCategory(cat.id === 'all' ? null : cat.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-sm font-medium whitespace-nowrap transition-all shrink-0 ${
+              className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-medium whitespace-nowrap transition-all shrink-0 ${
                 isActive
                   ? 'bg-orange-500 text-white shadow-lg shadow-orange-200'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -91,9 +91,9 @@ export default function CategoryBar({ categories }: CategoryBarProps) {
       {canScrollRight && (
         <button
           onClick={() => scroll('right')}
-          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-7 h-7 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50"
+          className="absolute right-1 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 active:bg-gray-100"
         >
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="w-5 h-5" />
         </button>
       )}
     </div>

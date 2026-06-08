@@ -59,16 +59,16 @@ function StatCard({ title, value, icon: Icon, color, prefix = '', suffix = '' }:
       transition={{ duration: 0.3 }}
     >
       <Card className="border-0 shadow-sm">
-        <CardContent className="p-4">
+        <CardContent className="p-3 sm:p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs text-gray-500 font-medium">{title}</p>
-              <p className="text-2xl font-bold mt-1">
+              <p className="text-[11px] sm:text-xs text-gray-500 font-medium">{title}</p>
+              <p className="text-xl sm:text-2xl font-bold mt-1">
                 {prefix}{typeof value === 'number' && prefix === '₹' ? formatINR(count).replace('₹', '') : count}{suffix}
               </p>
             </div>
-            <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', color)}>
-              <Icon className="w-5 h-5 text-white" />
+            <div className={cn('w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center', color)}>
+              <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
           </div>
         </CardContent>
@@ -176,7 +176,7 @@ function AddProductModal({ onAdded }: { onAdded: () => void }) {
                   type="checkbox"
                   checked={form.isFeatured}
                   onChange={(e) => setForm({ ...form, isFeatured: e.target.checked })}
-                  className="w-4 h-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+                  className="w-5 h-5 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
                 />
                 <span className="text-sm">Featured</span>
               </label>
@@ -303,6 +303,12 @@ export default function AdminDashboard() {
     CANCELLED: 'bg-red-100 text-red-700',
   }
 
+  const emojiMap: Record<string, string> = {
+    pizza: '🍕', biryani: '🍛', burger: '🍔', chinese: '🥡',
+    dosa: '🫓', 'north-indian': '🍲', desserts: '🍰', drinks: '🥤',
+    grocery: '🛒', default: '🍽️',
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -312,37 +318,38 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-4">
+    <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-bold flex items-center gap-2">
+        <h2 className="text-base sm:text-lg font-bold flex items-center gap-2">
           <BarChart3 className="w-5 h-5 text-orange-500" />
           Admin Panel
         </h2>
-        <span className="text-[10px] font-semibold text-gray-400 tracking-wider">
+        <span className="text-[9px] sm:text-[10px] font-semibold text-gray-400 tracking-wider">
           Powered by <span className="text-orange-500">TrishulHub</span>
         </span>
       </div>
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="bg-gray-100 p-1 rounded-xl">
-          <TabsTrigger value="overview" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-            <BarChart3 className="w-4 h-4 mr-1" /> Overview
+        {/* Scrollable tabs on mobile */}
+        <TabsList className="bg-gray-100 p-1 rounded-xl w-full overflow-x-auto">
+          <TabsTrigger value="overview" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3">
+            <BarChart3 className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1" /> Overview
           </TabsTrigger>
-          <TabsTrigger value="products" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-            <Package className="w-4 h-4 mr-1" /> Products
+          <TabsTrigger value="products" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3">
+            <Package className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1" /> Products
           </TabsTrigger>
-          <TabsTrigger value="orders" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-            <ShoppingBag className="w-4 h-4 mr-1" /> Orders
+          <TabsTrigger value="orders" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3">
+            <ShoppingBag className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1" /> Orders
           </TabsTrigger>
           {isSuperAdmin && (
-            <TabsTrigger value="users" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              <Users className="w-4 h-4 mr-1" /> Users
+            <TabsTrigger value="users" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm text-xs sm:text-sm px-2 sm:px-3">
+              <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1" /> Users
             </TabsTrigger>
           )}
         </TabsList>
 
         {/* OVERVIEW TAB */}
         <TabsContent value="overview" className="mt-4 space-y-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
             <StatCard title="Total Orders" value={orders.length} icon={ShoppingBag} color="bg-orange-500" />
             <StatCard title="Revenue" value={Math.round(totalRevenue)} icon={DollarSign} color="bg-green-500" prefix="₹" />
             <StatCard title="Products" value={products.length} icon={Package} color="bg-amber-500" />
@@ -352,21 +359,21 @@ export default function AdminDashboard() {
           {/* Recent orders */}
           <Card className="border-0 shadow-sm">
             <CardHeader className="pb-3">
-              <CardTitle className="text-base">Recent Orders</CardTitle>
+              <CardTitle className="text-sm sm:text-base">Recent Orders</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
                 {orders.slice(0, 5).map((order) => (
                   <div key={order.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
-                    <div>
-                      <p className="text-sm font-medium">{order.orderNumber}</p>
-                      <p className="text-xs text-gray-400">{new Date(order.createdAt).toLocaleDateString('en-IN')}</p>
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm font-medium truncate">{order.orderNumber}</p>
+                      <p className="text-[11px] text-gray-400">{new Date(order.createdAt).toLocaleDateString('en-IN')}</p>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Badge className={cn('text-[10px]', statusColors[order.status] || 'bg-gray-100')}>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <Badge className={cn('text-[9px] sm:text-[10px]', statusColors[order.status] || 'bg-gray-100')}>
                         {order.status}
                       </Badge>
-                      <span className="text-sm font-semibold">{formatINR(order.finalAmount)}</span>
+                      <span className="text-xs sm:text-sm font-semibold">{formatINR(order.finalAmount)}</span>
                     </div>
                   </div>
                 ))}
@@ -388,15 +395,64 @@ export default function AdminDashboard() {
                 className="pl-10"
               />
             </div>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={fetchProducts}>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <Button variant="outline" size="sm" onClick={fetchProducts} className="flex-1 sm:flex-none">
                 <RefreshCw className="w-3 h-3 mr-1" /> Refresh
               </Button>
               <AddProductModal onAdded={fetchProducts} />
             </div>
           </div>
 
-          <Card className="border-0 shadow-sm overflow-hidden">
+          {/* Mobile: Card layout / Desktop: Table */}
+          <div className="md:hidden space-y-2">
+            {filteredProducts.map((product) => (
+              <Card key={product.id} className="border-0 shadow-sm">
+                <CardContent className="p-3">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{emojiMap[product.category] || emojiMap.default}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-semibold truncate">{product.name}</p>
+                        {product.isFeatured && <Badge className="text-[8px] bg-orange-100 text-orange-600 shrink-0">Featured</Badge>}
+                      </div>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <Badge variant="secondary" className="text-[10px] capitalize">{product.category}</Badge>
+                        <span className="text-sm font-bold">{formatINR(product.discountPrice ?? product.price)}</span>
+                        {product.discountPrice && (
+                          <span className="text-[11px] text-gray-400 line-through">{formatINR(product.price)}</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-end gap-1 shrink-0">
+                      <Badge
+                        className={cn('text-[10px] cursor-pointer', product.isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500')}
+                        onClick={() => toggleProductActive(product.id, product.isActive)}
+                      >
+                        {product.isActive ? 'Active' : 'Inactive'}
+                      </Badge>
+                      <Badge variant={product.stock <= 5 ? 'destructive' : 'secondary'} className="text-[10px]">
+                        Stock: {product.stock}
+                      </Badge>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => deleteProduct(product.id)}
+                        className="w-8 h-8 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+            {filteredProducts.length === 0 && (
+              <p className="text-center py-8 text-gray-400 text-sm">No products found</p>
+            )}
+          </div>
+
+          {/* Desktop table */}
+          <Card className="border-0 shadow-sm overflow-hidden hidden md:block">
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
@@ -414,10 +470,7 @@ export default function AdminDashboard() {
                     <TableRow key={product.id}>
                       <TableCell className="font-medium">
                         <div className="flex items-center gap-2">
-                          <span className="text-lg">
-                            {product.category === 'pizza' ? '🍕' : product.category === 'biryani' ? '🍛' :
-                             product.category === 'burger' ? '🍔' : product.category === 'desserts' ? '🍰' : '🍽️'}
-                          </span>
+                          <span className="text-lg">{emojiMap[product.category] || emojiMap.default}</span>
                           <div>
                             <p className="text-sm font-semibold line-clamp-1">{product.name}</p>
                             {product.isFeatured && <Badge className="text-[8px] bg-orange-100 text-orange-600 mt-0.5">Featured</Badge>}
@@ -475,10 +528,10 @@ export default function AdminDashboard() {
 
         {/* ORDERS TAB */}
         <TabsContent value="orders" className="mt-4 space-y-4">
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center justify-between gap-2">
             <Select value={orderStatusFilter} onValueChange={setOrderStatusFilter}>
-              <SelectTrigger className="w-40">
-                <SelectValue placeholder="Filter by status" />
+              <SelectTrigger className="w-32 sm:w-40">
+                <SelectValue placeholder="Filter" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Status</SelectItem>
@@ -495,7 +548,52 @@ export default function AdminDashboard() {
             </Button>
           </div>
 
-          <Card className="border-0 shadow-sm overflow-hidden">
+          {/* Mobile: Card layout */}
+          <div className="md:hidden space-y-2">
+            {filteredOrders.map((order) => (
+              <Card key={order.id} className="border-0 shadow-sm">
+                <CardContent className="p-3 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-bold">{order.orderNumber}</span>
+                    <Badge className={cn('text-[10px]', statusColors[order.status])}>
+                      {order.status.replace(/_/g, ' ')}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between text-xs text-gray-500">
+                    <span>{new Date(order.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}</span>
+                    <span className="font-bold text-sm text-gray-900">{formatINR(order.finalAmount)}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Badge variant="outline" className="text-[9px]">
+                      {order.paymentMethod} / {order.paymentStatus}
+                    </Badge>
+                  </div>
+                  <Select
+                    value={order.status}
+                    onValueChange={(v) => updateOrderStatus(order.id, v)}
+                  >
+                    <SelectTrigger className="w-full h-8 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="PENDING">Pending</SelectItem>
+                      <SelectItem value="CONFIRMED">Confirmed</SelectItem>
+                      <SelectItem value="PREPARING">Preparing</SelectItem>
+                      <SelectItem value="OUT_FOR_DELIVERY">Out for Delivery</SelectItem>
+                      <SelectItem value="DELIVERED">Delivered</SelectItem>
+                      <SelectItem value="CANCELLED">Cancelled</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </CardContent>
+              </Card>
+            ))}
+            {filteredOrders.length === 0 && (
+              <p className="text-center py-8 text-gray-400 text-sm">No orders found</p>
+            )}
+          </div>
+
+          {/* Desktop table */}
+          <Card className="border-0 shadow-sm overflow-hidden hidden md:block">
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
@@ -562,10 +660,10 @@ export default function AdminDashboard() {
         {/* USERS TAB (Admin only) */}
         {isSuperAdmin && (
           <TabsContent value="users" className="mt-4 space-y-4">
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center justify-between gap-2">
               <Select value={userRoleFilter} onValueChange={setUserRoleFilter}>
-                <SelectTrigger className="w-40">
-                  <SelectValue placeholder="Filter by role" />
+                <SelectTrigger className="w-32 sm:w-40">
+                  <SelectValue placeholder="Filter" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Roles</SelectItem>
@@ -580,7 +678,39 @@ export default function AdminDashboard() {
               </Button>
             </div>
 
-            <Card className="border-0 shadow-sm overflow-hidden">
+            {/* Mobile: Card layout */}
+            <div className="md:hidden space-y-2">
+              {filteredUsers.map((user) => (
+                <Card key={user.id} className="border-0 shadow-sm">
+                  <CardContent className="p-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-sm font-bold text-orange-600 shrink-0">
+                        {(user.name || 'U').split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-medium truncate">{user.name}</span>
+                          <Badge variant="secondary" className="text-[10px] shrink-0">{user.role}</Badge>
+                        </div>
+                        <p className="text-[11px] text-gray-400 truncate">{user.email}</p>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className="text-[11px] text-gray-500">{user.phone || '-'}</span>
+                          <Badge className={cn('text-[10px]', user.isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700')}>
+                            {user.isActive ? 'Active' : 'Inactive'}
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+              {filteredUsers.length === 0 && (
+                <p className="text-center py-8 text-gray-400 text-sm">No users found</p>
+              )}
+            </div>
+
+            {/* Desktop table */}
+            <Card className="border-0 shadow-sm overflow-hidden hidden md:block">
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>

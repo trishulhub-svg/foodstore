@@ -162,19 +162,19 @@ export default function DeliveryDashboard() {
                   transition={{ delay: i * 0.05 }}
                 >
                   <Card className="border-0 shadow-sm hover:shadow-md transition-shadow">
-                    <CardContent className="p-4">
-                      <div className="flex items-start justify-between">
-                        <div className="space-y-2">
+                    <CardContent className="p-3 sm:p-4">
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                        <div className="space-y-1.5 sm:space-y-2">
                           <div className="flex items-center gap-2">
                             <span className="text-sm font-bold">{order.orderNumber}</span>
                             <Badge className={cn('text-[10px]', statusColors[order.status])}>
                               {order.status.replace(/_/g, ' ')}
                             </Badge>
                           </div>
-                          <div className="text-sm text-gray-500">
+                          <div className="text-xs sm:text-sm text-gray-500">
                             <p className="flex items-center gap-1">
                               <MapPin className="w-3 h-3" />
-                              {order.address?.addressLine1 || 'Address on file'}
+                              <span className="line-clamp-1">{order.address?.addressLine1 || 'Address on file'}</span>
                             </p>
                             <p className="flex items-center gap-1 mt-1">
                               <Clock className="w-3 h-3" />
@@ -185,7 +185,7 @@ export default function DeliveryDashboard() {
                         </div>
                         <Button
                           onClick={() => acceptDelivery(order.id)}
-                          className="bg-green-500 hover:bg-green-600 text-white"
+                          className="bg-green-500 hover:bg-green-600 text-white w-full sm:w-auto"
                           size="sm"
                         >
                           Accept Delivery

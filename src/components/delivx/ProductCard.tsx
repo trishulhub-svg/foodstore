@@ -54,30 +54,30 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
           <div className="absolute inset-0 bg-gray-100 animate-pulse" />
         )}
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-6xl group-hover:scale-110 transition-transform duration-300">
+          <span className="text-5xl sm:text-6xl group-hover:scale-110 transition-transform duration-300">
             {emoji}
           </span>
         </div>
 
         {/* Discount badge */}
         {discountPercent > 0 && (
-          <Badge className="absolute top-2 left-2 bg-green-500 text-white text-[10px] font-bold px-2">
+          <Badge className="absolute top-2 left-2 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5">
             {discountPercent}% OFF
           </Badge>
         )}
 
         {/* Featured badge */}
         {product.isFeatured && (
-          <Badge className="absolute top-2 right-10 bg-orange-500 text-white text-[10px] px-2">
+          <Badge className="absolute top-2 right-10 bg-orange-500 text-white text-[10px] px-1.5 py-0.5">
             <Star className="w-2.5 h-2.5 mr-0.5 fill-current" /> Featured
           </Badge>
         )}
 
-        {/* Wishlist */}
+        {/* Wishlist - Larger touch target for mobile */}
         <motion.button
           whileTap={{ scale: 0.8 }}
           onClick={() => setIsWishlisted(!isWishlisted)}
-          className="absolute top-2 right-2 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm"
+          className="absolute top-1.5 right-1.5 w-10 h-10 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-full shadow-sm"
         >
           <Heart
             className={cn(
@@ -95,7 +95,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
         )}
         {product.stock === 0 && (
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <span className="bg-white text-gray-800 px-4 py-1 rounded-full text-sm font-semibold">
+            <span className="bg-white text-gray-800 px-3 py-1 rounded-full text-xs font-semibold">
               Out of Stock
             </span>
           </div>
@@ -103,43 +103,43 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       </div>
 
       {/* Content */}
-      <div className="p-3">
+      <div className="p-2.5 sm:p-3">
         <h3 className="font-semibold text-sm text-gray-900 line-clamp-1">{product.name}</h3>
-        <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">{product.description}</p>
+        <p className="text-[11px] sm:text-xs text-gray-500 mt-0.5 line-clamp-1">{product.description}</p>
 
         <div className="flex items-end justify-between mt-2">
           {/* Price */}
-          <div>
-            <span className="font-bold text-base text-gray-900">
+          <div className="min-w-0">
+            <span className="font-bold text-sm sm:text-base text-gray-900">
               {formatINR(discountedPrice)}
             </span>
             {product.discountPrice && (
-              <span className="text-xs text-gray-400 line-through ml-1">
+              <span className="text-[11px] text-gray-400 line-through ml-1">
                 {formatINR(product.price)}
               </span>
             )}
             <p className="text-[10px] text-gray-400">per {product.unit}</p>
           </div>
 
-          {/* Add to cart */}
+          {/* Add to cart - Larger touch targets */}
           {product.stock > 0 && (
-            <div className="relative">
+            <div className="relative shrink-0">
               {quantity === 0 ? (
                 <motion.button
                   whileTap={{ scale: 0.9 }}
                   onClick={handleAdd}
-                  className="w-9 h-9 bg-orange-500 hover:bg-orange-600 text-white rounded-xl flex items-center justify-center shadow-md shadow-orange-200 transition-colors"
+                  className="w-10 h-10 sm:w-11 sm:h-11 bg-orange-500 hover:bg-orange-600 text-white rounded-xl flex items-center justify-center shadow-md shadow-orange-200 transition-colors"
                 >
-                  <Plus className="w-4 h-4" />
+                  <Plus className="w-5 h-5" />
                 </motion.button>
               ) : (
-                <div className="flex items-center gap-1 bg-orange-50 rounded-xl px-1">
+                <div className="flex items-center gap-0.5 bg-orange-50 rounded-xl px-1 py-0.5">
                   <motion.button
                     whileTap={{ scale: 0.85 }}
                     onClick={() => updateCartQuantity(product.id, quantity - 1)}
-                    className="w-7 h-7 flex items-center justify-center text-orange-600 hover:bg-orange-100 rounded-lg"
+                    className="w-9 h-9 flex items-center justify-center text-orange-600 hover:bg-orange-100 rounded-lg active:bg-orange-200"
                   >
-                    <Minus className="w-3 h-3" />
+                    <Minus className="w-3.5 h-3.5" />
                   </motion.button>
                   <motion.span
                     key={quantity}
@@ -152,9 +152,9 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
                   <motion.button
                     whileTap={{ scale: 0.85 }}
                     onClick={handleAdd}
-                    className="w-7 h-7 flex items-center justify-center text-orange-600 hover:bg-orange-100 rounded-lg"
+                    className="w-9 h-9 flex items-center justify-center text-orange-600 hover:bg-orange-100 rounded-lg active:bg-orange-200"
                   >
-                    <Plus className="w-3 h-3" />
+                    <Plus className="w-3.5 h-3.5" />
                   </motion.button>
                 </div>
               )}

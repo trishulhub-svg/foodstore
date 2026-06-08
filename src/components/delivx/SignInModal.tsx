@@ -141,7 +141,7 @@ export default function SignInModal() {
             <div className="relative bg-gradient-to-r from-orange-500 to-amber-500 p-6 rounded-t-2xl">
               <button
                 onClick={() => setSignInOpen(false)}
-                className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors"
+                className="absolute top-3 right-3 w-10 h-10 flex items-center justify-center rounded-full text-white/80 hover:text-white hover:bg-white/20 active:bg-white/30 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>

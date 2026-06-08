@@ -230,9 +230,9 @@ export default function AddressManager({ selectable, selectedAddressId, onSelect
                               variant="ghost"
                               size="sm"
                               onClick={(e) => { e.stopPropagation(); openEdit(address) }}
-                              className="w-8 h-8 p-0"
+                              className="w-10 h-10 p-0"
                             >
-                              <Edit className="w-3.5 h-3.5" />
+                              <Edit className="w-4 h-4" />
                             </Button>
                             {deleteConfirm === address.id ? (
                               <div className="flex items-center gap-1">
@@ -240,17 +240,17 @@ export default function AddressManager({ selectable, selectedAddressId, onSelect
                                   variant="ghost"
                                   size="sm"
                                   onClick={(e) => { e.stopPropagation(); deleteAddress(address.id) }}
-                                  className="w-8 h-8 p-0 text-red-500"
+                                  className="w-10 h-10 p-0 text-red-500"
                                 >
-                                  <Check className="w-3.5 h-3.5" />
+                                  <Check className="w-4 h-4" />
                                 </Button>
                                 <Button
                                   variant="ghost"
                                   size="sm"
                                   onClick={(e) => { e.stopPropagation(); setDeleteConfirm(null) }}
-                                  className="w-8 h-8 p-0"
+                                  className="w-10 h-10 p-0"
                                 >
-                                  <X className="w-3.5 h-3.5" />
+                                  <X className="w-4 h-4" />
                                 </Button>
                               </div>
                             ) : (
@@ -258,9 +258,9 @@ export default function AddressManager({ selectable, selectedAddressId, onSelect
                                 variant="ghost"
                                 size="sm"
                                 onClick={(e) => { e.stopPropagation(); setDeleteConfirm(address.id) }}
-                                className="w-8 h-8 p-0 text-red-400 hover:text-red-600"
+                                className="w-10 h-10 p-0 text-red-400 hover:text-red-600"
                               >
-                                <Trash2 className="w-3.5 h-3.5" />
+                                <Trash2 className="w-4 h-4" />
                               </Button>
                             )}
                           </div>
@@ -299,7 +299,7 @@ export default function AddressManager({ selectable, selectedAddressId, onSelect
                 </SelectContent>
               </Select>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-2">
                 <Label>Full Name</Label>
                 <Input value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} required placeholder="Rahul Sharma" />
@@ -317,7 +317,7 @@ export default function AddressManager({ selectable, selectedAddressId, onSelect
               <Label>Address Line 2</Label>
               <Input value={form.addressLine2} onChange={(e) => setForm({ ...form, addressLine2: e.target.value })} placeholder="Area, Colony" />
             </div>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="space-y-2">
                 <Label>City</Label>
                 <Input value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} required placeholder="Mumbai" />
@@ -340,7 +340,7 @@ export default function AddressManager({ selectable, selectedAddressId, onSelect
                 type="checkbox"
                 checked={form.isDefault}
                 onChange={(e) => setForm({ ...form, isDefault: e.target.checked })}
-                className="w-4 h-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+                className="w-5 h-5 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
               />
               <span className="text-sm">Set as default address</span>
             </label>

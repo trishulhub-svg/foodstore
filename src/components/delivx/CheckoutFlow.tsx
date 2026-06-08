@@ -133,7 +133,7 @@ export default function CheckoutFlow() {
                   <s.icon className="w-4 h-4 text-white" />
                 </motion.div>
                 <span className={cn(
-                  'text-xs font-medium hidden sm:block',
+                  'text-[10px] sm:text-xs font-medium',
                   i <= currentStepIndex ? 'text-orange-600' : 'text-gray-400'
                 )}>
                   {s.label}

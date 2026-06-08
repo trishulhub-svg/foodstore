@@ -53,9 +53,9 @@ export default function CartDrawer() {
               </div>
               <button
                 onClick={() => setCartOpen(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+                className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 active:bg-gray-200"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
@@ -91,7 +91,7 @@ export default function CartDrawer() {
                           exit={{ opacity: 0, x: -20, height: 0 }}
                           className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl"
                         >
-                          <div className="w-14 h-14 bg-white rounded-lg flex items-center justify-center shrink-0 text-2xl">
+                          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-lg flex items-center justify-center shrink-0 text-xl sm:text-2xl">
                             {item.product.category === 'pizza' ? '🍕' :
                              item.product.category === 'biryani' ? '🍛' :
                              item.product.category === 'burger' ? '🍔' :
@@ -110,30 +110,31 @@ export default function CartDrawer() {
                             </p>
                           </div>
 
-                          <div className="flex items-center gap-1">
+                          {/* Quantity controls - larger touch targets */}
+                          <div className="flex items-center gap-0.5 shrink-0">
                             <motion.button
                               whileTap={{ scale: 0.85 }}
                               onClick={() => updateCartQuantity(item.product.id, item.quantity - 1)}
-                              className="w-7 h-7 flex items-center justify-center rounded-lg bg-white border border-gray-200 hover:bg-gray-50"
+                              className="w-9 h-9 flex items-center justify-center rounded-lg bg-white border border-gray-200 hover:bg-gray-50 active:bg-gray-100"
                             >
-                              <Minus className="w-3 h-3" />
+                              <Minus className="w-3.5 h-3.5" />
                             </motion.button>
-                            <span className="w-6 text-center text-sm font-semibold">
+                            <span className="w-7 text-center text-sm font-semibold">
                               {item.quantity}
                             </span>
                             <motion.button
                               whileTap={{ scale: 0.85 }}
                               onClick={() => updateCartQuantity(item.product.id, item.quantity + 1)}
-                              className="w-7 h-7 flex items-center justify-center rounded-lg bg-orange-500 text-white hover:bg-orange-600"
+                              className="w-9 h-9 flex items-center justify-center rounded-lg bg-orange-500 text-white hover:bg-orange-600 active:bg-orange-700"
                             >
-                              <Plus className="w-3 h-3" />
+                              <Plus className="w-3.5 h-3.5" />
                             </motion.button>
                             <motion.button
                               whileTap={{ scale: 0.85 }}
                               onClick={() => removeFromCart(item.product.id)}
-                              className="w-7 h-7 flex items-center justify-center rounded-lg text-red-400 hover:bg-red-50 ml-1"
+                              className="w-9 h-9 flex items-center justify-center rounded-lg text-red-400 hover:bg-red-50 active:bg-red-100 ml-0.5"
                             >
-                              <Trash2 className="w-3 h-3" />
+                              <Trash2 className="w-3.5 h-3.5" />
                             </motion.button>
                           </div>
                         </motion.div>
@@ -192,7 +193,7 @@ export default function CartDrawer() {
 
                 <button
                   onClick={clearCart}
-                  className="w-full text-center text-sm text-gray-400 hover:text-red-500 transition-colors"
+                  className="w-full text-center text-sm text-gray-400 hover:text-red-500 transition-colors py-2"
                 >
                   Clear Cart
                 </button>

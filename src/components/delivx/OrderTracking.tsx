@@ -188,10 +188,10 @@ export default function OrderTracking({ order }: { order: Order }) {
                 </div>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" className="w-9 h-9 p-0">
+                <Button variant="outline" size="sm" className="w-10 h-10 p-0">
                   <Phone className="w-4 h-4" />
                 </Button>
-                <Button variant="outline" size="sm" className="w-9 h-9 p-0">
+                <Button variant="outline" size="sm" className="w-10 h-10 p-0">
                   <Navigation className="w-4 h-4" />
                 </Button>
               </div>
