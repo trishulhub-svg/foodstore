@@ -14,12 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DelivX - Food & Grocery Delivery",
-  description: "Order food, groceries and more delivered to your doorstep. Fast delivery across India.",
-  keywords: ["DelivX", "food delivery", "grocery delivery", "India", "online ordering"],
-  icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
-  },
+  title: "FoodStore - Food & Grocery Delivery | Built by TrishulHub",
+  description: "Order food, groceries and more delivered to your doorstep. Fast delivery across India. Built with love by TrishulHub.",
+  keywords: ["FoodStore", "TrishulHub", "food delivery", "grocery delivery", "India", "online ordering"],
 };
 
 export default function RootLayout({

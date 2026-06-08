@@ -360,6 +360,22 @@ function AppContent() {
       <CartDrawer />
       <SignInModal />
       <BottomNav />
+
+      {/* TrishulHub Footer */}
+      <footer className="hidden md:block bg-gray-900 text-center py-3 mt-auto">
+        <p className="text-gray-400 text-xs">
+          <span className="text-white font-semibold">FoodStore</span> — Delivery App Demo &middot; Built with ❤️ by{' '}
+          <a
+            href="https://github.com/trishulhub-svg"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-orange-400 font-bold hover:text-orange-300 transition-colors"
+          >
+            TrishulHub
+          </a>
+          {' '}&middot; Powered by Next.js & Prisma
+        </p>
+      </footer>
     </div>
   )
 }

@@ -71,7 +71,7 @@ export default function SignInModal() {
         setError('Demo account not available. Please ensure seed data is loaded.')
       } else {
         setSignInOpen(false)
-        toast({ title: 'Welcome to DelivX!', description: 'Demo mode activated.' })
+        toast({ title: 'Welcome to FoodStore!', description: 'Demo mode activated. Built by TrishulHub.' })
         window.location.reload()
       }
     } catch {
@@ -108,7 +108,7 @@ export default function SignInModal() {
         })
         if (result?.ok) {
           setSignInOpen(false)
-          toast({ title: 'Account created!', description: 'Welcome to DelivX!' })
+          toast({ title: 'Account created!', description: 'Welcome to FoodStore!' })
           window.location.reload()
         }
       }
@@ -149,7 +149,10 @@ export default function SignInModal() {
                 <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
                   <Bike className="w-6 h-6 text-orange-500" />
                 </div>
-                <h1 className="text-2xl font-bold text-white">DelivX</h1>
+                <div>
+                  <h1 className="text-2xl font-bold text-white">FoodStore</h1>
+                  <p className="text-white/60 text-[10px] font-medium tracking-wider">by TrishulHub</p>
+                </div>
               </div>
               <p className="text-white/80 text-sm">
                 {isRegister ? 'Create your account' : 'Sign in to continue'}

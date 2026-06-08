@@ -313,6 +313,15 @@ export default function AdminDashboard() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-4">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-bold flex items-center gap-2">
+          <BarChart3 className="w-5 h-5 text-orange-500" />
+          Admin Panel
+        </h2>
+        <span className="text-[10px] font-semibold text-gray-400 tracking-wider">
+          Powered by <span className="text-orange-500">TrishulHub</span>
+        </span>
+      </div>
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="bg-gray-100 p-1 rounded-xl">
           <TabsTrigger value="overview" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
