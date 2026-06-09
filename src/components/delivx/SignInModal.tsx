@@ -151,7 +151,7 @@ export default function SignInModal() {
                 </div>
                 <div>
                   <h1 className="text-xl sm:text-2xl font-bold text-white">FoodStore</h1>
-                  <p className="text-white/60 text-[9px] sm:text-[10px] font-medium tracking-wider">by TrishulHub</p>
+                  <p className="text-white/70 text-[10px] sm:text-[11px] font-semibold tracking-wider">by TrishulHub</p>
                 </div>
               </div>
               <p className="text-white/80 text-xs sm:text-sm">

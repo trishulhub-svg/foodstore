@@ -124,7 +124,7 @@ export default function DeliveryDashboard() {
           <h1 className="text-base sm:text-lg font-bold">Delivery Dashboard</h1>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-[8px] sm:text-[9px] font-semibold text-gray-400 tracking-wider hidden sm:inline">
+          <span className="text-[8px] sm:text-[9px] font-semibold text-gray-400 tracking-wider">
             by <span className="text-orange-500">TrishulHub</span>
           </span>
           <Button variant="outline" size="sm" onClick={fetchOrders}>

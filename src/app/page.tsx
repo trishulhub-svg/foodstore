@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useStore, type AppView, type Order } from '@/lib/store'
@@ -22,12 +22,51 @@ import BottomNav from '@/components/delivx/BottomNav'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import {
   Package, Loader2, User, MapPin, Settings, LogOut,
-  ShoppingBag, Phone, Mail, Calendar, Shield, Bike,
+  ShoppingBag, Phone, Mail, Calendar, Shield, Bike, AlertTriangle,
 } from 'lucide-react'
 import { formatINR, cn } from '@/lib/utils'
+
+// Error Boundary to catch client-side exceptions
+class ErrorBoundary extends Component<
+  { children: React.ReactNode; fallback?: React.ReactNode },
+  { hasError: boolean; error: Error | null }
+> {
+  constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
+    super(props)
+    this.state = { hasError: false, error: null }
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error }
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('[ErrorBoundary]', error, errorInfo)
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback || (
+        <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+          <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-4">
+            <AlertTriangle className="w-8 h-8 text-red-400" />
+          </div>
+          <h3 className="font-semibold text-gray-700">Something went wrong</h3>
+          <p className="text-sm text-gray-400 mt-1">Please try refreshing the page</p>
+          <Button
+            onClick={() => this.setState({ hasError: false, error: null })}
+            className="mt-4 bg-orange-500 hover:bg-orange-600 text-white"
+          >
+            Try Again
+          </Button>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
 
 // Order List for customers
 function CustomerOrders() {
@@ -164,16 +203,37 @@ function CustomerOrders() {
 // Account page
 function AccountPage() {
   const { setSignInOpen, setView } = useStore()
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const [orders, setOrders] = useState<Order[]>([])
   const [addresses, setAddresses] = useState<any[]>([])
+  const [dataLoading, setDataLoading] = useState(true)
 
   useEffect(() => {
     if (session?.user) {
-      fetch('/api/orders').then(r => r.json()).then(d => setOrders(d.orders || [])).catch(() => {})
-      fetch('/api/addresses').then(r => r.json()).then(d => setAddresses(d.addresses || [])).catch(() => {})
+      setDataLoading(true)
+      Promise.all([
+        fetch('/api/orders')
+          .then(r => r.ok ? r.json() : { orders: [] })
+          .then(d => setOrders(d.orders || []))
+          .catch(() => setOrders([])),
+        fetch('/api/addresses')
+          .then(r => r.ok ? r.json() : { addresses: [] })
+          .then(d => setAddresses(d.addresses || []))
+          .catch(() => setAddresses([])),
+      ]).finally(() => setDataLoading(false))
+    } else {
+      setDataLoading(false)
     }
   }, [session])
+
+  // Show loading while session is being resolved
+  if (status === 'loading') {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="w-6 h-6 animate-spin text-orange-500" />
+      </div>
+    )
+  }
 
   if (!session?.user) {
     return (
@@ -182,6 +242,7 @@ function AccountPage() {
           <User className="w-8 h-8 text-gray-400" />
         </div>
         <h3 className="font-semibold text-gray-700">Sign in to view your account</h3>
+        <p className="text-sm text-gray-400 mt-1">Access your orders, addresses and more</p>
         <Button
           onClick={() => setSignInOpen(true)}
           className="mt-4 bg-orange-500 hover:bg-orange-600 text-white"
@@ -192,8 +253,14 @@ function AccountPage() {
     )
   }
 
-  const role = session.user.role
+  const role = (session.user.role as string) || 'CUSTOMER'
+  const displayName = session.user.name || 'User'
+  const displayEmail = session.user.email || ''
   const roleIcon = role === 'ADMIN' ? Shield : role === 'DELIVERY_PARTNER' ? Bike : role === 'EMPLOYEE' ? Shield : User
+  const roleLabel = role === 'DELIVERY_PARTNER' ? 'Delivery Partner' : role.charAt(0) + role.slice(1).toLowerCase()
+  const totalSpent = orders
+    .filter((o) => o.paymentStatus === 'COMPLETED')
+    .reduce((sum, o) => sum + (o.finalAmount || 0), 0)
 
   return (
     <div className="max-w-2xl mx-auto px-3 sm:px-4 py-3 sm:py-4 space-y-3 sm:space-y-4">
@@ -204,32 +271,38 @@ function AccountPage() {
             <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/20 rounded-xl sm:rounded-2xl flex items-center justify-center">
               {React.createElement(roleIcon, { className: 'w-6 h-6 sm:w-8 sm:h-8 text-white' })}
             </div>
-            <div>
-              <h2 className="text-lg sm:text-xl font-bold">{session.user.name}</h2>
-              <p className="text-white/80 text-sm">{session.user.email}</p>
+            <div className="min-w-0">
+              <h2 className="text-lg sm:text-xl font-bold truncate">{displayName}</h2>
+              <p className="text-white/80 text-sm truncate">{displayEmail}</p>
               <Badge className="mt-1 bg-white/20 text-white text-xs">
-                {role}
+                {roleLabel}
               </Badge>
             </div>
           </div>
         </div>
         <CardContent className="p-3 sm:p-4">
-          <div className="grid grid-cols-3 gap-3 sm:gap-4 text-center">
-            <div>
-              <p className="text-2xl font-bold text-orange-600">{orders.length}</p>
-              <p className="text-xs text-gray-500">Orders</p>
+          {dataLoading ? (
+            <div className="flex items-center justify-center py-4">
+              <Loader2 className="w-5 h-5 animate-spin text-orange-500" />
             </div>
-            <div>
-              <p className="text-2xl font-bold text-green-600">{addresses.length}</p>
-              <p className="text-xs text-gray-500">Addresses</p>
+          ) : (
+            <div className="grid grid-cols-3 gap-3 sm:gap-4 text-center">
+              <div>
+                <p className="text-2xl font-bold text-orange-600">{orders.length}</p>
+                <p className="text-xs text-gray-500">Orders</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-green-600">{addresses.length}</p>
+                <p className="text-xs text-gray-500">Addresses</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-amber-600">
+                  {totalSpent > 0 ? formatINR(totalSpent).replace('₹', '') : '0'}
+                </p>
+                <p className="text-xs text-gray-500">Total Spent</p>
+              </div>
             </div>
-            <div>
-              <p className="text-2xl font-bold text-amber-600">
-                {formatINR(orders.filter((o: Order) => o.paymentStatus === 'COMPLETED').reduce((s: number, o: Order) => s + o.finalAmount, 0)).replace('₹', '')}
-              </p>
-              <p className="text-xs text-gray-500">Total Spent</p>
-            </div>
-          </div>
+          )}
         </CardContent>
       </Card>
 
@@ -271,19 +344,24 @@ function AccountPage() {
               <span className="text-sm font-medium">Delivery Dashboard</span>
             </button>
           )}
+          <button
+            onClick={async () => {
+              const { signOut } = await import('next-auth/react')
+              await signOut({ redirect: false })
+              window.location.reload()
+            }}
+            className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-red-50 text-red-500 transition-colors"
+          >
+            <LogOut className="w-5 h-5" />
+            <span className="text-sm font-medium">Sign Out</span>
+          </button>
         </CardContent>
       </Card>
 
       {/* Addresses */}
-      <Card id="addresses-section" className="border-0 shadow-sm">
-        <CardContent className="p-4">
-          <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-orange-500" />
-            My Addresses
-          </h3>
-          <AddressManager />
-        </CardContent>
-      </Card>
+      <div id="addresses-section">
+        <AddressManager />
+      </div>
     </div>
   )
 }
@@ -351,11 +429,11 @@ function AppContent() {
                 <ProductGrid />
               </>
             )}
-            {currentView === 'admin' && <AdminDashboard />}
-            {currentView === 'delivery' && <DeliveryDashboard />}
-            {currentView === 'checkout' && <CheckoutFlow />}
-            {currentView === 'orders' && <CustomerOrders />}
-            {currentView === 'account' && <AccountPage />}
+            {currentView === 'admin' && <ErrorBoundary><AdminDashboard /></ErrorBoundary>}
+            {currentView === 'delivery' && <ErrorBoundary><DeliveryDashboard /></ErrorBoundary>}
+            {currentView === 'checkout' && <ErrorBoundary><CheckoutFlow /></ErrorBoundary>}
+            {currentView === 'orders' && <ErrorBoundary><CustomerOrders /></ErrorBoundary>}
+            {currentView === 'account' && <ErrorBoundary><AccountPage /></ErrorBoundary>}
           </motion.div>
         </AnimatePresence>
       </main>
@@ -365,20 +443,20 @@ function AppContent() {
       <BottomNav />
 
       {/* TrishulHub Footer */}
-      <footer className="bg-gray-900 text-center py-4 pb-16 sm:pb-20 md:pb-4 mt-auto">
-        <div className="flex items-center justify-center gap-2 mb-1">
-          <div className="w-6 h-6 bg-gradient-to-br from-orange-500 to-amber-500 rounded-lg flex items-center justify-center">
-            <Bike className="w-3.5 h-3.5 text-white" />
+      <footer className="bg-gray-900 text-center py-5 pb-20 sm:pb-20 md:pb-5 mt-auto">
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <div className="w-7 h-7 bg-gradient-to-br from-orange-500 to-amber-500 rounded-lg flex items-center justify-center">
+            <Bike className="w-4 h-4 text-white" />
           </div>
-          <span className="text-white font-bold text-sm">FoodStore</span>
+          <span className="text-white font-bold text-base">FoodStore</span>
         </div>
-        <p className="text-gray-400 text-xs">
+        <p className="text-gray-400 text-xs sm:text-sm">
           Built with ❤️ by{' '}
           <a
             href="https://github.com/trishulhub-svg"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-orange-400 font-bold hover:text-orange-300 transition-colors"
+            className="text-orange-400 font-bold hover:text-orange-300 transition-colors underline underline-offset-2"
           >
             TrishulHub
           </a>

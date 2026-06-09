@@ -79,9 +79,14 @@ export default function BottomNav() {
         })}
         {/* TrishulHub branding in BottomNav */}
         <div className="absolute -top-5 right-2">
-          <span className="text-[8px] font-semibold text-gray-300 tracking-wider">
+          <a
+            href="https://github.com/trishulhub-svg"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[8px] font-semibold text-gray-300 hover:text-orange-400 tracking-wider transition-colors"
+          >
             TrishulHub
-          </span>
+          </a>
         </div>
       </div>
       <div className="pb-[env(safe-area-inset-bottom)]" />

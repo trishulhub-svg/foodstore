@@ -75,7 +75,7 @@ export default function Header() {
               <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent">
                 FoodStore
               </span>
-              <span className="text-[7px] sm:text-[9px] font-bold bg-gradient-to-r from-gray-900 to-gray-700 text-white px-1 sm:px-1.5 py-0.5 rounded-md tracking-wide border border-gray-600">
+              <span className="text-[7px] sm:text-[9px] font-bold bg-gradient-to-r from-gray-900 to-gray-700 text-white px-1 sm:px-1.5 py-0.5 rounded-md tracking-wide border border-gray-600 whitespace-nowrap">
                 by TrishulHub
               </span>
             </div>

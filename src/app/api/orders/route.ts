@@ -19,6 +19,9 @@ export async function GET(request: NextRequest) {
       if (userId) where.userId = userId
     } else if (session?.user?.id) {
       where.userId = session.user.id
+    } else {
+      // No session - return empty to prevent data leak
+      return NextResponse.json({ orders: [] })
     }
     if (deliveryPartnerId) where.deliveryPartnerId = deliveryPartnerId
 
