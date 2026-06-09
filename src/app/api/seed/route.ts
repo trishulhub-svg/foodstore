@@ -29,15 +29,33 @@ async function seedDatabase() {
     process.env.DATABASE_URL = dbUrl
 
     // Push schema to database (creates tables if they don't exist)
+    let schemaPushed = false
     try {
-      execSync('npx prisma db push --accept-data-loss --skip-generate', {
-        stdio: 'pipe',
-        timeout: 30000,
+      const result = execSync('npx prisma db push --accept-data-loss --skip-generate 2>&1', {
+        encoding: 'utf-8',
+        timeout: 60000,
         env: { ...process.env, DATABASE_URL: dbUrl },
       })
-    } catch (pushError) {
-      console.error('Schema push failed (tables may already exist):', String(pushError))
-      // Continue anyway — tables might already exist
+      console.log('[Seed] Schema push result:', result)
+      schemaPushed = true
+    } catch (pushError: any) {
+      const stderr = pushError.stderr || pushError.stdout || String(pushError)
+      console.error('[Seed] Schema push failed:', stderr)
+      // Try to check if tables exist anyway — push might fail if tables already exist with slight differences
+      try {
+        await db.user.findFirst()
+        console.log('[Seed] Tables appear to exist despite push failure, continuing...')
+        schemaPushed = true
+      } catch {
+        return NextResponse.json(
+          {
+            error: 'Failed to create database tables',
+            details: `prisma db push failed and tables do not exist. Error: ${stderr.slice(0, 500)}. Try redeploying — the postinstall script should create tables during build.`,
+            hint: 'Make sure DATABASE_URL is set in Vercel (Settings → Environment Variables) and redeploy.',
+          },
+          { status: 500 }
+        )
+      }
     }
 
     // Create demo users

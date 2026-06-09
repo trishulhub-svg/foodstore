@@ -74,11 +74,11 @@ function CustomerOrders() {
 
   if (selectedOrder) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-4">
+      <div className="max-w-2xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
         <Button
           variant="ghost"
           onClick={() => setSelectedOrderId(null)}
-          className="mb-4"
+          className="mb-3 sm:mb-4"
         >
           ← Back to Orders
         </Button>
@@ -88,8 +88,8 @@ function CustomerOrders() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-4">
-      <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+    <div className="max-w-2xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
+      <h2 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 flex items-center gap-2">
         <Package className="w-5 h-5 text-orange-500" />
         My Orders
       </h2>
@@ -196,16 +196,16 @@ function AccountPage() {
   const roleIcon = role === 'ADMIN' ? Shield : role === 'DELIVERY_PARTNER' ? Bike : role === 'EMPLOYEE' ? Shield : User
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-4 space-y-4">
+    <div className="max-w-2xl mx-auto px-3 sm:px-4 py-3 sm:py-4 space-y-3 sm:space-y-4">
       {/* Profile Card */}
       <Card className="border-0 shadow-sm overflow-hidden">
-        <div className="bg-gradient-to-r from-orange-500 to-amber-500 p-6 text-white">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
-              {React.createElement(roleIcon, { className: 'w-8 h-8 text-white' })}
+        <div className="bg-gradient-to-r from-orange-500 to-amber-500 p-4 sm:p-6 text-white">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/20 rounded-xl sm:rounded-2xl flex items-center justify-center">
+              {React.createElement(roleIcon, { className: 'w-6 h-6 sm:w-8 sm:h-8 text-white' })}
             </div>
             <div>
-              <h2 className="text-xl font-bold">{session.user.name}</h2>
+              <h2 className="text-lg sm:text-xl font-bold">{session.user.name}</h2>
               <p className="text-white/80 text-sm">{session.user.email}</p>
               <Badge className="mt-1 bg-white/20 text-white text-xs">
                 {role}
@@ -213,8 +213,8 @@ function AccountPage() {
             </div>
           </div>
         </div>
-        <CardContent className="p-4">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
+        <CardContent className="p-3 sm:p-4">
+          <div className="grid grid-cols-3 gap-3 sm:gap-4 text-center">
             <div>
               <p className="text-2xl font-bold text-orange-600">{orders.length}</p>
               <p className="text-xs text-gray-500">Orders</p>
@@ -332,7 +332,7 @@ function AppContent() {
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
 
-      <main className="flex-1 pb-20 md:pb-4">
+      <main className="flex-1 pb-16 sm:pb-4 md:pb-4">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentView}
@@ -362,7 +362,7 @@ function AppContent() {
       <BottomNav />
 
       {/* TrishulHub Footer */}
-      <footer className="bg-gray-900 text-center py-3 pb-20 md:pb-3 mt-auto">
+      <footer className="bg-gray-900 text-center py-3 pb-16 sm:pb-20 md:pb-3 mt-auto">
         <p className="text-gray-400 text-xs">
           <span className="text-white font-semibold">FoodStore</span> &middot; Built with ❤️ by{' '}
           <a

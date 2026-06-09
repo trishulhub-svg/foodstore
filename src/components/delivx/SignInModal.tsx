@@ -126,7 +126,7 @@ export default function SignInModal() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm sm:p-4"
           onClick={() => setSignInOpen(false)}
         >
           <motion.div
@@ -134,36 +134,36 @@ export default function SignInModal() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[95vh] sm:max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="relative bg-gradient-to-r from-orange-500 to-amber-500 p-6 rounded-t-2xl">
+            <div className="relative bg-gradient-to-r from-orange-500 to-amber-500 p-4 sm:p-6 rounded-t-2xl sm:rounded-t-2xl">
               <button
                 onClick={() => setSignInOpen(false)}
                 className="absolute top-3 right-3 w-10 h-10 flex items-center justify-center rounded-full text-white/80 hover:text-white hover:bg-white/20 active:bg-white/30 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
-                  <Bike className="w-6 h-6 text-orange-500" />
+              <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-lg sm:rounded-xl flex items-center justify-center">
+                  <Bike className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-white">FoodStore</h1>
-                  <p className="text-white/60 text-[10px] font-medium tracking-wider">by TrishulHub</p>
+                  <h1 className="text-xl sm:text-2xl font-bold text-white">FoodStore</h1>
+                  <p className="text-white/60 text-[9px] sm:text-[10px] font-medium tracking-wider">by TrishulHub</p>
                 </div>
               </div>
-              <p className="text-white/80 text-sm">
+              <p className="text-white/80 text-xs sm:text-sm">
                 {isRegister ? 'Create your account' : 'Sign in to continue'}
               </p>
             </div>
 
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               {/* Demo Quick Login */}
-              <div className="mb-6">
-                <p className="text-sm font-medium text-gray-500 mb-3">Quick Demo Login</p>
-                <div className="grid grid-cols-2 gap-2">
+              <div className="mb-4 sm:mb-6">
+                <p className="text-xs sm:text-sm font-medium text-gray-500 mb-2 sm:mb-3">Quick Demo Login</p>
+                <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
                   {demoAccounts.map((account) => (
                     <motion.button
                       key={account.role}
@@ -171,7 +171,7 @@ export default function SignInModal() {
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleDemoLogin(account.email, account.password)}
                       disabled={loading}
-                      className="flex items-center gap-2 p-2.5 rounded-xl border border-gray-200 hover:border-orange-300 hover:bg-orange-50 transition-all text-sm"
+                      className="flex items-center gap-1.5 sm:gap-2 p-2 sm:p-2.5 rounded-xl border border-gray-200 hover:border-orange-300 hover:bg-orange-50 transition-all text-xs sm:text-sm"
                     >
                       <div className={`w-7 h-7 ${account.color} rounded-lg flex items-center justify-center`}>
                         <account.icon className="w-4 h-4 text-white" />

@@ -46,7 +46,7 @@ export default function CategoryBar({ categories }: CategoryBarProps) {
   }
 
   return (
-    <div className="relative px-4 py-4">
+    <div className="relative px-3 sm:px-4 py-3 sm:py-4">
       {/* Scroll left button */}
       {canScrollLeft && (
         <button
@@ -74,7 +74,7 @@ export default function CategoryBar({ categories }: CategoryBarProps) {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setCategory(cat.id === 'all' ? null : cat.id)}
-              className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-medium whitespace-nowrap transition-all shrink-0 ${
+              className={`flex items-center gap-1 sm:gap-2 px-2.5 py-1.5 sm:px-4 sm:py-2.5 rounded-xl sm:rounded-2xl text-[11px] sm:text-sm font-medium whitespace-nowrap transition-all shrink-0 ${
                 isActive
                   ? 'bg-orange-500 text-white shadow-lg shadow-orange-200'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'

@@ -54,11 +54,11 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4">
+        <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
           <motion.div
-            className="flex items-center gap-2 cursor-pointer shrink-0"
+            className="flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0"
             onClick={() => setView('home')}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -67,16 +67,18 @@ export default function Header() {
               animate={{ x: [0, 4, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <div className="w-9 h-9 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center">
-                <Bike className="w-5 h-5 text-white" />
+              <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-orange-500 to-amber-500 rounded-lg sm:rounded-xl flex items-center justify-center">
+                <Bike className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
             </motion.div>
-            <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent">
-              FoodStore
-            </span>
-            <span className="text-[9px] font-bold bg-gray-900 text-white px-1.5 py-0.5 rounded-md tracking-wide">
-              by TrishulHub
-            </span>
+            <div className="flex items-center gap-1 sm:gap-1.5">
+              <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent">
+                FoodStore
+              </span>
+              <span className="text-[8px] sm:text-[9px] font-bold bg-gray-900 text-white px-1 sm:px-1.5 py-0.5 rounded-md tracking-wide">
+                by TrishulHub
+              </span>
+            </div>
           </motion.div>
 
           {/* Desktop Nav */}
@@ -100,7 +102,7 @@ export default function Header() {
           </nav>
 
           {/* Search */}
-          <div className="flex-1 max-w-md mx-4 hidden sm:block">
+          <div className="flex-1 max-w-md mx-2 sm:mx-4 hidden sm:block">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <Input
@@ -114,7 +116,7 @@ export default function Header() {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             {/* Mobile Search Toggle */}
             <motion.button
               whileTap={{ scale: 0.9 }}

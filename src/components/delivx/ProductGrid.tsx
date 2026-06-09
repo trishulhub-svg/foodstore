@@ -92,11 +92,11 @@ export default function ProductGrid({ products: propProducts, loading: propLoadi
   }
 
   return (
-    <div className="px-4 py-2">
-      <div className="flex items-center justify-between mb-3">
-        <h2 className="text-lg font-bold text-gray-900">
+    <div className="px-3 sm:px-4 py-2">
+      <div className="flex items-center justify-between mb-2 sm:mb-3">
+        <h2 className="text-base sm:text-lg font-bold text-gray-900">
           {selectedCategory ? selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1) : 'All Products'}
-          <span className="text-sm font-normal text-gray-400 ml-2">
+          <span className="text-xs sm:text-sm font-normal text-gray-400 ml-1 sm:ml-2">
             ({filteredProducts.length} items)
           </span>
         </h2>
@@ -108,7 +108,7 @@ export default function ProductGrid({ products: propProducts, loading: propLoadi
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4"
         >
           {filteredProducts.map((product, index) => (
             <ProductCard key={product.id} product={product} index={index} />

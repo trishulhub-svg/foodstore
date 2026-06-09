@@ -40,10 +40,10 @@ export default function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 250 }}
-            className="fixed right-0 top-0 bottom-0 z-50 w-full sm:w-96 bg-white shadow-2xl flex flex-col"
+            className="fixed right-0 top-0 bottom-0 z-50 w-full sm:w-96 bg-white shadow-2xl flex flex-col safe-bottom"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b">
+            <div className="flex items-center justify-between p-3 sm:p-4 border-b">
               <div className="flex items-center gap-2">
                 <ShoppingBag className="w-5 h-5 text-orange-500" />
                 <h2 className="font-bold text-lg">Your Cart</h2>
@@ -60,7 +60,7 @@ export default function CartDrawer() {
             </div>
 
             {/* Cart Items */}
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 pb-[env(safe-area-inset-bottom)]">
               {cart.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center">
                   <div className="w-24 h-24 bg-orange-50 rounded-full flex items-center justify-center mb-4">
@@ -89,9 +89,9 @@ export default function CartDrawer() {
                           initial={{ opacity: 0, x: 20 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: -20, height: 0 }}
-                          className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl"
+                          className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-gray-50 rounded-xl"
                         >
-                          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-lg flex items-center justify-center shrink-0 text-xl sm:text-2xl">
+                          <div className="w-10 h-10 sm:w-14 sm:h-14 bg-white rounded-lg flex items-center justify-center shrink-0 text-lg sm:text-2xl">
                             {item.product.category === 'pizza' ? '🍕' :
                              item.product.category === 'biryani' ? '🍛' :
                              item.product.category === 'burger' ? '🍔' :
@@ -102,10 +102,10 @@ export default function CartDrawer() {
                           </div>
 
                           <div className="flex-1 min-w-0">
-                            <h4 className="text-sm font-semibold text-gray-800 line-clamp-1">
+                            <h4 className="text-xs sm:text-sm font-semibold text-gray-800 line-clamp-1">
                               {item.product.name}
                             </h4>
-                            <p className="text-sm text-orange-600 font-bold mt-0.5">
+                            <p className="text-xs sm:text-sm text-orange-600 font-bold mt-0.5">
                               {formatINR(price * item.quantity)}
                             </p>
                           </div>
@@ -115,26 +115,26 @@ export default function CartDrawer() {
                             <motion.button
                               whileTap={{ scale: 0.85 }}
                               onClick={() => updateCartQuantity(item.product.id, item.quantity - 1)}
-                              className="w-9 h-9 flex items-center justify-center rounded-lg bg-white border border-gray-200 hover:bg-gray-50 active:bg-gray-100"
+                              className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg bg-white border border-gray-200 hover:bg-gray-50 active:bg-gray-100"
                             >
-                              <Minus className="w-3.5 h-3.5" />
+                              <Minus className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                             </motion.button>
-                            <span className="w-7 text-center text-sm font-semibold">
+                            <span className="w-6 sm:w-7 text-center text-xs sm:text-sm font-semibold">
                               {item.quantity}
                             </span>
                             <motion.button
                               whileTap={{ scale: 0.85 }}
                               onClick={() => updateCartQuantity(item.product.id, item.quantity + 1)}
-                              className="w-9 h-9 flex items-center justify-center rounded-lg bg-orange-500 text-white hover:bg-orange-600 active:bg-orange-700"
+                              className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg bg-orange-500 text-white hover:bg-orange-600 active:bg-orange-700"
                             >
-                              <Plus className="w-3.5 h-3.5" />
+                              <Plus className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                             </motion.button>
                             <motion.button
                               whileTap={{ scale: 0.85 }}
                               onClick={() => removeFromCart(item.product.id)}
-                              className="w-9 h-9 flex items-center justify-center rounded-lg text-red-400 hover:bg-red-50 active:bg-red-100 ml-0.5"
+                              className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg text-red-400 hover:bg-red-50 active:bg-red-100 ml-0.5"
                             >
-                              <Trash2 className="w-3.5 h-3.5" />
+                              <Trash2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                             </motion.button>
                           </div>
                         </motion.div>

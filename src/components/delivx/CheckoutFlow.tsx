@@ -96,9 +96,9 @@ export default function CheckoutFlow() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-4">
+    <div className="max-w-2xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
       {/* Header */}
-      <div className="flex items-center gap-3 mb-4">
+      <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
         <Button
           variant="ghost"
           size="sm"
@@ -114,7 +114,7 @@ export default function CheckoutFlow() {
         >
           <ArrowLeft className="w-4 h-4" />
         </Button>
-        <h1 className="text-lg font-bold">Checkout</h1>
+        <h1 className="text-base sm:text-lg font-bold">Checkout</h1>
       </div>
 
       {/* Step Indicator */}
