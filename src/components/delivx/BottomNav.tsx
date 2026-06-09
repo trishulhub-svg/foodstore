@@ -80,7 +80,7 @@ export default function BottomNav() {
         {/* TrishulHub branding in BottomNav */}
         <div className="absolute -top-5 right-2">
           <a
-            href="https://github.com/trishulhub-svg"
+            href="https://trishulhub.in"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[8px] font-semibold text-gray-300 hover:text-orange-400 tracking-wider transition-colors"

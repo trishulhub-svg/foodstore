@@ -453,7 +453,7 @@ function AppContent() {
         <p className="text-gray-400 text-xs sm:text-sm">
           Built with ❤️ by{' '}
           <a
-            href="https://github.com/trishulhub-svg"
+            href="https://trishulhub.in"
             target="_blank"
             rel="noopener noreferrer"
             className="text-orange-400 font-bold hover:text-orange-300 transition-colors underline underline-offset-2"
