@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { generateOrderNumber } from '@/lib/utils'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 
 export async function GET(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions)
     const { searchParams } = new URL(request.url)
     const status = searchParams.get('status')
     const userId = searchParams.get('userId')
@@ -11,7 +14,12 @@ export async function GET(request: NextRequest) {
 
     const where: any = {}
     if (status) where.status = status
-    if (userId) where.userId = userId
+    // If not admin, only show user's own orders
+    if (session?.user?.role === 'ADMIN' || session?.user?.role === 'EMPLOYEE') {
+      if (userId) where.userId = userId
+    } else if (session?.user?.id) {
+      where.userId = session.user.id
+    }
     if (deliveryPartnerId) where.deliveryPartnerId = deliveryPartnerId
 
     const orders = await db.order.findMany({
@@ -38,6 +46,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions)
     const body = await request.json()
     const { addressId, paymentMethod, items, totalAmount, deliveryFee, discount, finalAmount, userId } = body
 
@@ -45,12 +54,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Address and items are required' }, { status: 400 })
     }
 
+    // Use session user ID, fallback to provided userId
+    const orderUserId = session?.user?.id || userId
+    if (!orderUserId) {
+      return NextResponse.json({ error: 'Please sign in to place an order' }, { status: 401 })
+    }
+
     const orderNumber = generateOrderNumber()
 
     const order = await db.order.create({
       data: {
         orderNumber,
-        userId: userId || 'guest',
+        userId: orderUserId,
         addressId,
         status: 'PENDING',
         totalAmount: totalAmount || 0,
@@ -58,7 +73,7 @@ export async function POST(request: NextRequest) {
         discount: discount || 0,
         finalAmount: finalAmount || 0,
         paymentMethod: paymentMethod || 'COD',
-        paymentStatus: paymentMethod === 'ONLINE' ? 'PENDING' : 'PENDING',
+        paymentStatus: 'PENDING',
         orderItems: {
           create: items.map((item: any) => ({
             productId: item.productId,
@@ -76,10 +91,14 @@ export async function POST(request: NextRequest) {
 
     // Update product stock
     for (const item of items) {
-      await db.product.update({
-        where: { id: item.productId },
-        data: { stock: { decrement: item.quantity } },
-      })
+      try {
+        await db.product.update({
+          where: { id: item.productId },
+          data: { stock: { decrement: item.quantity } },
+        })
+      } catch (e) {
+        console.error('Failed to update stock for product:', item.productId, e)
+      }
     }
 
     return NextResponse.json({ order }, { status: 201 })

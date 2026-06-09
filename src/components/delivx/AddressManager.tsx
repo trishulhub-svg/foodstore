@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/dialog'
 import { useStore, type Address } from '@/lib/store'
 import { useToast } from '@/hooks/use-toast'
+import { cn } from '@/lib/utils'
 
 const labelIcons: Record<string, React.ElementType> = {
   HOME: Home,

@@ -26,9 +26,23 @@ export async function PATCH(
     const { id } = await params
     const body = await request.json()
 
+    // Whitelist only allowed fields for update (prevent mass assignment)
+    const allowedFields = ['name', 'description', 'price', 'discountPrice', 'category', 'images', 'stock', 'unit', 'isActive', 'isFeatured']
+    const data: Record<string, any> = {}
+    for (const field of allowedFields) {
+      if (body[field] !== undefined) {
+        data[field] = body[field]
+      }
+    }
+
+    // Convert numeric fields
+    if (data.price !== undefined) data.price = parseFloat(data.price)
+    if (data.discountPrice !== undefined) data.discountPrice = data.discountPrice ? parseFloat(data.discountPrice) : null
+    if (data.stock !== undefined) data.stock = parseInt(data.stock)
+
     const product = await db.product.update({
       where: { id },
-      data: body,
+      data,
     })
 
     return NextResponse.json({ product })

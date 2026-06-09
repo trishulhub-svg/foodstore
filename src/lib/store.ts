@@ -1,6 +1,7 @@
 'use client'
 
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 export type UserRole = 'ADMIN' | 'EMPLOYEE' | 'DELIVERY_PARTNER' | 'CUSTOMER'
 
@@ -8,9 +9,11 @@ export interface User {
   id: string
   name: string
   email: string
-  phone?: string
+  phone: string
   role: UserRole
   avatar?: string
+  isActive: boolean
+  createdAt: string
 }
 
 export interface Product {
@@ -136,7 +139,9 @@ interface AppState {
   goToPreviousView: () => void
 }
 
-export const useStore = create<AppState>((set, get) => ({
+export const useStore = create<AppState>()(
+  persist(
+    (set, get) => ({
   // Auth
   currentUser: null,
   isAuthenticated: false,
@@ -236,4 +241,13 @@ export const useStore = create<AppState>((set, get) => ({
       currentView: state.previousView || 'home',
       previousView: null,
     })),
-}))
+    }),
+    {
+      name: 'foodstore-storage',
+      partialize: (state) => ({
+        cart: state.cart,
+        selectedCategory: state.selectedCategory,
+      }),
+    }
+  )
+)

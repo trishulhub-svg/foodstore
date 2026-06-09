@@ -121,8 +121,8 @@ export default function HeroSection() {
 
         {/* TrishulHub Branding */}
         <div className="absolute bottom-3 right-3 sm:right-4">
-          <span className="text-[9px] sm:text-[10px] font-semibold text-white/60 tracking-wider">
-            Built by <span className="text-white/90">TrishulHub</span>
+          <span className="text-[8px] sm:text-[10px] font-bold text-white/70 tracking-wider">
+            Built by <span className="text-white">TrishulHub</span>
           </span>
         </div>
       </div>

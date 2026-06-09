@@ -244,7 +244,10 @@ function AccountPage() {
             <span className="text-sm font-medium">My Orders</span>
           </button>
           <button
-            onClick={() => setView('home')}
+            onClick={() => {
+              const el = document.getElementById('addresses-section')
+              el?.scrollIntoView({ behavior: 'smooth' })
+            }}
             className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-gray-50 transition-colors"
           >
             <MapPin className="w-5 h-5 text-green-500" />
@@ -272,7 +275,7 @@ function AccountPage() {
       </Card>
 
       {/* Addresses */}
-      <Card className="border-0 shadow-sm">
+      <Card id="addresses-section" className="border-0 shadow-sm">
         <CardContent className="p-4">
           <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
             <MapPin className="w-4 h-4 text-orange-500" />
@@ -362,9 +365,15 @@ function AppContent() {
       <BottomNav />
 
       {/* TrishulHub Footer */}
-      <footer className="bg-gray-900 text-center py-3 pb-16 sm:pb-20 md:pb-3 mt-auto">
+      <footer className="bg-gray-900 text-center py-4 pb-16 sm:pb-20 md:pb-4 mt-auto">
+        <div className="flex items-center justify-center gap-2 mb-1">
+          <div className="w-6 h-6 bg-gradient-to-br from-orange-500 to-amber-500 rounded-lg flex items-center justify-center">
+            <Bike className="w-3.5 h-3.5 text-white" />
+          </div>
+          <span className="text-white font-bold text-sm">FoodStore</span>
+        </div>
         <p className="text-gray-400 text-xs">
-          <span className="text-white font-semibold">FoodStore</span> &middot; Built with ❤️ by{' '}
+          Built with ❤️ by{' '}
           <a
             href="https://github.com/trishulhub-svg"
             target="_blank"

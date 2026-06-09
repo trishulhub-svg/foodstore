@@ -25,14 +25,23 @@ export async function PATCH(
     // If setting as default, unset others
     if (body.isDefault) {
       await db.address.updateMany({
-        where: { userId: session.user.id, isDefault: true },
+        where: { userId: (session.user as any).id, isDefault: true },
         data: { isDefault: false },
       })
     }
 
+    // Whitelist only allowed fields for update (prevent mass assignment)
+    const allowedFields = ['label', 'fullName', 'phone', 'addressLine1', 'addressLine2', 'city', 'state', 'pincode', 'landmark', 'isDefault', 'latitude', 'longitude']
+    const data: Record<string, any> = {}
+    for (const field of allowedFields) {
+      if (body[field] !== undefined) {
+        data[field] = body[field]
+      }
+    }
+
     const address = await db.address.update({
       where: { id },
-      data: body,
+      data,
     })
 
     return NextResponse.json({ address })

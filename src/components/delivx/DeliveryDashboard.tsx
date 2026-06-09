@@ -117,15 +117,20 @@ export default function DeliveryDashboard() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-4">
-      <div className="flex items-center justify-between mb-4">
+    <div className="max-w-4xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
+      <div className="flex items-center justify-between mb-3 sm:mb-4">
         <div className="flex items-center gap-2">
           <Bike className="w-5 h-5 text-orange-500" />
-          <h1 className="text-lg font-bold">Delivery Dashboard</h1>
+          <h1 className="text-base sm:text-lg font-bold">Delivery Dashboard</h1>
         </div>
-        <Button variant="outline" size="sm" onClick={fetchOrders}>
-          <RefreshCw className="w-3 h-3 mr-1" /> Refresh
-        </Button>
+        <div className="flex items-center gap-2">
+          <span className="text-[8px] sm:text-[9px] font-semibold text-gray-400 tracking-wider hidden sm:inline">
+            by <span className="text-orange-500">TrishulHub</span>
+          </span>
+          <Button variant="outline" size="sm" onClick={fetchOrders}>
+            <RefreshCw className="w-3 h-3 mr-1" /> Refresh
+          </Button>
+        </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>

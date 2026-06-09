@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 
 export async function GET(request: NextRequest) {
   try {
@@ -30,11 +32,18 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions)
     const body = await request.json()
-    const { name, description, price, discountPrice, category, images, stock, unit, isFeatured, userId } = body
+    const { name, description, price, discountPrice, category, images, stock, unit, isFeatured } = body
 
     if (!name || !price || !category || !stock) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    }
+
+    // Use session user ID for product creator
+    const userId = session?.user?.id
+    if (!userId) {
+      return NextResponse.json({ error: 'Please sign in to add products' }, { status: 401 })
     }
 
     const product = await db.product.create({
@@ -48,7 +57,7 @@ export async function POST(request: NextRequest) {
         stock: parseInt(stock),
         unit: unit || 'piece',
         isFeatured: isFeatured || false,
-        userId: userId || 'system',
+        userId,
       },
     })
 

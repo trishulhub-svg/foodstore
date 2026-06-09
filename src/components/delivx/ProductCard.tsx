@@ -16,7 +16,6 @@ interface ProductCardProps {
 export default function ProductCard({ product, index = 0 }: ProductCardProps) {
   const { cart, addToCart, removeFromCart, updateCartQuantity } = useStore()
   const [isWishlisted, setIsWishlisted] = useState(false)
-  const [imageLoaded, setImageLoaded] = useState(false)
   const [addedAnimation, setAddedAnimation] = useState(false)
 
   const cartItem = cart.find((item) => item.product.id === product.id)
@@ -32,7 +31,6 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
     setTimeout(() => setAddedAnimation(false), 600)
   }
 
-  const imageUrl = product.images || '/placeholder-food.jpg'
   const emojiMap: Record<string, string> = {
     pizza: '🍕', biryani: '🍛', burger: '🍔', chinese: '🥡',
     dosa: '🫓', 'north-indian': '🍲', desserts: '🍰', drinks: '🥤',
@@ -50,9 +48,6 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
     >
       {/* Image */}
       <div className="relative aspect-square bg-gradient-to-br from-orange-50 to-amber-50 overflow-hidden">
-        {!imageLoaded && (
-          <div className="absolute inset-0 bg-gray-100 animate-pulse" />
-        )}
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-4xl sm:text-6xl group-hover:scale-110 transition-transform duration-300">
             {emoji}

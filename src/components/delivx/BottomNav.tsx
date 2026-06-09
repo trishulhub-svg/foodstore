@@ -31,8 +31,8 @@ export default function BottomNav() {
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-gray-100 pb-[env(safe-area-inset-bottom)] md:hidden shadow-[0_-2px_10px_rgba(0,0,0,0.06)]">
-      <div className="flex items-center justify-around h-14 sm:h-16 max-w-lg mx-auto">
+    <nav className="fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-gray-100 md:hidden shadow-[0_-2px_10px_rgba(0,0,0,0.06)]">
+      <div className="flex items-center justify-around h-14 sm:h-16 max-w-lg mx-auto relative">
         {navItems.map((item) => {
           const active = isActive(item.view, item.label)
           return (
@@ -77,7 +77,14 @@ export default function BottomNav() {
             </button>
           )
         })}
+        {/* TrishulHub branding in BottomNav */}
+        <div className="absolute -top-5 right-2">
+          <span className="text-[8px] font-semibold text-gray-300 tracking-wider">
+            TrishulHub
+          </span>
+        </div>
       </div>
+      <div className="pb-[env(safe-area-inset-bottom)]" />
     </nav>
   )
 }
